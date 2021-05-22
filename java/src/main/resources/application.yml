@@ -1,0 +1,13 @@
+spring:
+  application:
+    version: @project.version@
+  cache:
+    caffeine:
+      spec: initialCapacity=50,maximumSize=500
+    type: caffeine
+
+logging:
+  level:
+    root: INFO
+server:
+  port: 8080
