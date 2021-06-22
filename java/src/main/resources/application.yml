@@ -1,0 +1,12 @@
+server:
+  port: 8080
+swagger:
+  enabled: true
+
+spring:
+  cache:
+    caffeine:
+      spec: initialCapacity=100,maximumSize=1000
+    type: caffeine
+  application:
+    name: short-url
