@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC
+  "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+  <!-- 本地数据库驱动程序jar包的全路径 -->
+  <classPathEntry
+    location="/Users/shiqingshan/mymac/software/maven_repository/mysql/mysql-connector-java/8.0.24/mysql-connector-java-8.0.24.jar"/>
+
+  <context id="context" targetRuntime="MyBatis3">
+    <commentGenerator>
+      <property name="suppressAllComments" value="false"/>
+      <property name="suppressDate" value="true"/>
+    </commentGenerator>
+
+    <!-- 数据库的相关配置 -->
+    <jdbcConnection connectionURL="jdbc:mysql://localhost:3306/short_url?useUnicode=true&amp;characterEncoding=utf-8"
+      driverClass="com.mysql.jdbc.Driver"
+      password="root" userId="root"/>
+
+    <javaTypeResolver>
+      <property name="forceBigDecimals" value="false"/>
+    </javaTypeResolver>
+
+    <!-- 实体类生成的位置 -->
+    <javaModelGenerator targetPackage="com.example.shortUrl.domain.po" targetProject="src/main/java">
+      <property name="enableSubPackages" value="false"/>
+      <property name="trimStrings" value="true"/>
+    </javaModelGenerator>
+
+    <!-- *Mapper.xml 文件的位置 -->
+    <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
+      <property name="enableSubPackages" value="false"/>
+    </sqlMapGenerator>
+
+    <!-- Mapper 接口文件的位置 -->
+    <javaClientGenerator targetPackage="com.example.shortUrl.dao" targetProject="src/main/java"
+      type="XMLMAPPER">
+      <property name="enableSubPackages" value="false"/>
+    </javaClientGenerator>
+
+    <!-- extraInfo need modify in the mapper-->
+    <table enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+      enableUpdateByExample="false" tableName="short_url">
+    </table>
+  </context>
+</generatorConfiguration>

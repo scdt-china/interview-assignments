@@ -1,0 +1,37 @@
+## 参数配置
+spring:
+  h2:
+    console:
+      enabled: true
+      settings:
+        #开启h2 console 跟踪 方便调试  默认 false
+        trace: true
+        #      允许console 远程访问 默认false
+        web-allow-others: true
+      #  h2 访问路径上下文
+      path: /h2-console
+  datasource:
+    #  驱动
+    driver-class-name: org.h2.Driver
+    # h2 内存数据库 内存模式连接配置 库名: mybatis
+    url: jdbc:h2:mem:short_url
+    username: root
+    password: root
+    schema: 'classpath:h2/schema.sql'
+
+
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/short_url?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true
+#    username: root
+#    password: root
+shortUrl:
+  generator:
+    key: sqs
+    baseUrl: https://tk.vip
+# Mybatis配置
+mybatis:
+  # 搜索指定包别名
+  typeAliasesPackage: com.example.shortUrl.dao
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath:mapper/**/*.xml
