@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false" scan="false" scanPeriod="1 seconds">
+    <contextName>logback</contextName>
+    <property name="format" value="%d [%thread] %-5level %logger{50} -[%file:%line]- %msg%n"/>
+    <property name="level" value="info"/>
+    <property name="size" value="10"/>
+    <property name="history" value="180"/>
+    <property name="path" value="logs"/>
+    <property name="appName" value="java-assignment"/>
+
+    <!--ConsoleAppender 用于在屏幕上输出日志-->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${format}</pattern>
+        </encoder>
+    </appender>
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 被写入的文件名，可以是相对目录，也可以是绝对目录，如果上级目录不存在会自动创建 -->
+        <file>${path}/${appName}/${appName}.log</file>
+        <!-- 当发生滚动时，决定RollingFileAppender的行为，涉及文件移动和重命名。属性class定义具体的滚动策略类 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 必要节点，包含文件名及"%d"转换符，"%d"可以包含一个java.text.SimpleDateFormat指定的时间格式，默认格式是 yyyy-MM-dd -->
+            <fileNamePattern>${path}/${appName}/bak/${appName}_%d{yyyy-MM-dd}.log.%i.gz</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${size}MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- 可选节点，控制保留的归档文件的最大数量，超出数量就删除旧文件。假设设置每个月滚动，如果是6，则只保存最近6个月的文件，删除之前的旧文件 -->
+            <maxHistory>${history}</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${format}</pattern>
+        </encoder>
+    </appender>
+
+    <!--root是默认的logger 这里设定输出级别是debug-->
+    <root level="${level}">
+        <!--定义了两个appender，日志会通过往这两个appender里面写-->
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="file"/>
+    </root>
+
+</configuration>

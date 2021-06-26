@@ -1,0 +1,9 @@
+server:
+  port: 9090
+
+logging:
+  config: classpath:logback-spring.xml
+
+sequoia:
+  id-recursive-max-count: 5 #id（短域名）递归最大次数，防止栈溢出
+  container-max-count: 100000 #长短域名映射关系容器的容量上限
