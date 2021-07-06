@@ -1,0 +1,10 @@
+/.settings/
+/.classpath
+*.project
+/logs/
+/target/
+/upload/
+*.epoch
+*.log
+/tomcat_tmp/
+
