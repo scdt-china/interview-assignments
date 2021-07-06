@@ -1,0 +1,11 @@
+server:
+  port: 9097
+  servlet:
+    context-path: /short_name
+
+spring:
+  application:
+    name: short-name
+
+logging:
+  file: shortName.log
