@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <!-- 参考文档：中文 http://generator.sturgeon.mopaas.com/afterRunning.html，原文http://www.mybatis.org/generator/ -->
+    <!-- 示例table：create table mybatis_user(user_name CHAR(15) not null,user_password
+        CHAR(15) not null,user_email VARCHAR(20) not null unique,user_birthday DATETIME,user_age
+        INT,user_salary DECIMAL(10,2),primary key(user_name))engine=innodb default
+        charset=utf8; -->
+    <!-- 依赖包直接定义在mybatis-generator-maven-plugin的dependencies中 -->
+    <!-- <classPathEntry location="./lib/mysql-connector-java-5.1.39-bin.jar" />
+    <classPathEntry location="./lib/dolphin-mybatis-generator-1.1.0.jar" /> -->
+    <context id="default" targetRuntime="MyBatis3">
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- 替换Example为Criteria -->
+        <plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+            <property name="searchString" value="Example$"/>
+            <property name="replaceString" value="Criteria"/>
+        </plugin>
+        <!-- 表格对应Java bean类型实现java.io.Serializable接口，添加默认的serialVersionUID -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin">
+            <property name="suppressJavaInterface " value="true"/>
+        </plugin>
+        <!-- 表格对应Java bean类型增加toString方法 -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <!-- 增加分页支持 -->
+        <plugin type="com.freetmp.mbg.plugin.page.MySqlPaginationPlugin"/>
+
+        <!-- jdbc连接定义 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/url_db?useUnicode=true&amp;characterEncoding=utf-8"
+                        userId="root" password="123456"/>
+
+        <!-- 强制数据库小数类型为java.math.BigDecimal -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="true"/>
+        </javaTypeResolver>
+        <!-- 表格对应Java bean类型生成，结果为$TABLE_NAME$.java和$TABLE_NAME$Criteria.java -->
+        <javaModelGenerator targetPackage="com.example.assignment.dto" targetProject="./src/main/java/">
+            <!-- 不生成构造函数 -->
+            <property name="constructorBased" value="false"/>
+            <property name="trimStrings" value="true"/>
+            <!-- 默认的基础PO父类 -->
+        </javaModelGenerator>
+
+        <!-- 垂直库 -->
+        <sqlMapGenerator targetPackage="sqlmap.nptable" targetProject="./src/main/resources/"/>
+        <javaClientGenerator targetPackage="com.example.assignment.dao"
+                             targetProject="./src/main/java/"
+                             type="XMLMAPPER">
+        </javaClientGenerator>
+        <!-- 以下定义需要生成的表 垂直库 -->
+        <table schema="url_db" tableName="url_record">
+        </table>
+    </context>
+</generatorConfiguration>
