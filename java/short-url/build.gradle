@@ -1,0 +1,54 @@
+plugins {
+	id 'org.springframework.boot' version '2.5.2'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'org.zhaosd'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+	maven {url 'https://maven.aliyun.com/nexus/content/groups/public/'}
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// https://mvnrepository.com/artifact/io.springfox/springfox-boot-starter
+	implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
+
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+apply plugin: "jacoco"
+jacoco {
+	toolVersion = "0.8.4"
+	reportsDir = file("$buildDir/customJacocoReportDir")
+}
+jacocoTestReport {
+	reports {
+		html.enabled true
+		csv.enabled false
+		xml.enabled true
+		xml.destination file("$buildDir/jacocoXml.xml")
+		html.destination file("$buildDir/jacocoHtml")
+	}
+	afterEvaluate {
+		getClassDirectories().setFrom(
+				classDirectories.files.collect {
+					fileTree(dir: it,
+							exclude: ['需要排除的路径, it路径是classes'])
+				}
+		)
+	}
+}
+test {
+	useJUnitPlatform()
+	jacoco {
+		destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+		classDumpDir = file("$buildDir/jacoco/classpathdumps")
+	}
+}
