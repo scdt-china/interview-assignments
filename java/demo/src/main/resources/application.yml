@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: demo
+server:
+  port: 8080
+swagger:
+  enable: true
+  application-name: ${spring.application.name}
+  application-version: 1.0
+  try-host: http://localhost:${server.port}
