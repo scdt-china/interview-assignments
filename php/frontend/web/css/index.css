@@ -1,0 +1,21 @@
+@charset "utf-8";
+*{list-style: none;font-family: "微软雅黑";font-size: 14px;text-decoration: none;margin: 0;padding: 0;border: none;outline: none;}
+.bg{background: #f5f5f5;}
+button,a{cursor:pointer;}
+input::-webkit-input-placeholder{color: #ddd;}
+/* 登录 */
+.login{background: #352924;}
+.login_box{background: #fff;width: 900px;min-height:480px;height: auto;overflow: hidden;margin: 80px auto 30px auto;padding: 40px 50px;border-radius: 10px;position: relative;}
+.login_box .logo{width: 80px;height: 80px;position: absolute;}
+.login_box h5{color: #ddd;font-size: 30px;line-height: 80px;margin-left: 100px;}
+.login_box .img{position: absolute;top:140px;width: 380px;height: auto;}
+.login_right{position: absolute;width: 300px;height: auto;overflow: hidden;right: 120px;top:200px}
+.login_right h1{text-align: center;color: #352924;line-height: 50px;font-size: 20px;}
+.login_right input{width: 300px;height: 30px;line-height: 30px;margin-top: 20px;border-bottom: 1px solid #eee;padding-left: 30px;background: url(../img/icon_phone.png) no-repeat 5px 0;background-size: 18px;}
+.login_right .psd{background: url(../img/icon_psd.png)no-repeat  5px 0;background-size: 20px;}
+.login_right a{position: absolute;right: 0;top:165px;color: #aaa;font-size: 12px;}
+.login_right button{margin: 50px 70px;width: 160px;height: 36px;line-height: 36px;border-radius: 18px;background: #352924;color: #fff;font-size: 18px;}
+.login_box .tips{margin: 150px auto 30px auto;width:390px;padding-left: 40px;color: #fed547;font-size: 30px;background: url(../img/icon_tips.png)no-repeat 0 0;background-size:40px;}
+.login_box .back{display:block;text-align:center;margin:0 auto;width: 120px;height: 36px;line-height: 36px;border-radius: 18px;background: #352924;color: #fff;font-size: 16px;}
+.bottom{color: #fff;text-align: center;width: 100%}
+.bottom s{margin-left: 20px;}
