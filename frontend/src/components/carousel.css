@@ -1,0 +1,70 @@
+.caption {
+	top:  20%;
+}
+
+.caption h1 {
+	font-size: 4.5em;
+}
+
+.caption p {
+	font-size: 2em;
+}
+
+.black-font {
+	color: black !important;
+}
+
+.iphone {
+	height:100vh;
+
+	background-image: url("../assets/iphone-16-9.png");
+	background-repeat: no-repeat !important;
+  background-size: 100% 100% !important;
+}
+
+.tablet {
+	height:100vh;
+
+	background-image: url("../assets/tablet-16-9.png");
+	background-repeat: no-repeat !important;
+  background-size: 100% 100% !important;
+}
+
+.airpods {
+	height:100vh;
+
+	background-image: url("../assets/airpods-16-9.png");
+	background-repeat: no-repeat !important;
+  background-size: 100% 100% !important;
+}
+
+.progress-bars {
+	position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 15;
+  display: flex;
+  justify-content: center;
+  padding-left: 0;
+  margin-right: 15%;
+  margin-left: 15%;
+  list-style: none;
+}
+
+.progress-bars li {
+	width: 30px;
+	margin-left: 3px;
+	margin-right: 3px;
+}
+
+.progress {
+	height: 3px !important;
+	background-color: #bfbfbf !important;
+	pointer-events: auto;
+  cursor: pointer;
+}
+
+.progress-bar {
+	background-color: #8c8c8c !important;
+}
