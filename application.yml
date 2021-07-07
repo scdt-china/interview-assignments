@@ -1,0 +1,5 @@
+user-config:
+  url:
+    domain1: http://t.com/
+  memory:
+    threshold: 0.2
