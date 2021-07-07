@@ -1,0 +1,7 @@
+server:
+  port: 80
+
+url:
+  domain: https://xiong.cn/
+
+
