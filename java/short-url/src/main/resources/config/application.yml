@@ -1,0 +1,61 @@
+app:
+  base-package: com.sequoia.shorturl
+server:
+  port: 8080
+  servlet:
+    context-path: /
+scheduler:
+  enable: true
+  pool-size: 20
+
+spring:
+  application:
+    name: shorturl
+  profiles:
+    include:
+  pid:
+    file: ${spring.application.name}.pid
+    fail-on-write-error: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 50MB
+  mvc:
+    date-format: yyyy-MM-dd HH:mm:ss
+    favicon:
+      enabled: true
+    throw-exception-if-no-handler-found: true
+    static-path-pattern: /**
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+    converters:
+      preferred-json-mapper: jackson
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  resources:
+    add-mappings: true
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+
+logging:
+  config: classpath:config/logback.xml
+#短域名网站前缀
+shorturl:
+  prefix: http://www.baidu.com/t/
+
+#swagger config
+swagger:
+  title: short-url
+  description: short-url HTTP对外开放接口
+  version: 1.0.0
+  license: Apache License, Version 2.0
+  contact:
+    name: sequoia
+  base-package: ${app.base-package}
+  enabled: true
+
+

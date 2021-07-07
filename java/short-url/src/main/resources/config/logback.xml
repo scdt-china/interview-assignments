@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+
+    <property name="APP_Name" value="shortDomains"/>
+    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
+    <contextName>${APP_Name}</contextName>
+    <property name="charset" value="UTF-8"/>
+
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
+    <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoder 默认配置为PatternLayoutEncoder -->
+        <encoder>
+            <pattern>%d{YYYY-MM-dd HH:mm:ss.SSS} [%5level] --- %-40logger{36} : %msg%n</pattern>
+            <charset>${charset}</charset>
+        </encoder>
+    </appender>
+
+    <!--<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+        <!--<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+            <!--&lt;!&ndash; <fileNamePattern>D:/logs/${APP_Name}/${APP_Name}.logFile.%d{yyyy-MM-dd}.log</fileNamePattern> &ndash;&gt;-->
+            <!--<fileNamePattern>/data/app/ground-cardata/logs/${APP_Name}.logFile.%d{yyyy-MM-dd}.log</fileNamePattern>-->
+            <!--<maxHistory>3</maxHistory>-->
+        <!--</rollingPolicy>-->
+        <!--<encoder>-->
+            <!--<pattern>%d{YYYY-MM-dd HH:mm:ss.SSS} [%5level] -&#45;&#45; %-40logger{36} : %msg%n</pattern>-->
+            <!--<charset>${charset}</charset>-->
+        <!--</encoder>-->
+    <!--</appender>-->
+
+
+    <logger name="com.incar" level="INFO"></logger>
+    <!--</logger>-->
+    <root level="INFO">
+        <!--<appender-ref ref="STASH" />-->
+        <appender-ref ref="STDOUT" />
+        <!--<appender-ref ref="FILE"/>-->
+    </root>
+</configuration>  
