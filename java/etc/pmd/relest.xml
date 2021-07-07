@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<ruleset name="Custom ruleset"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+    <description>
+        自定义Rule set
+    </description>
+    <!-- 引入PMD制定的Rule, 来源于https://github.com/pmd/pmd/tree/master/pmd-java/src/main/resources/rulesets/java  -->
+    <rule ref="rulesets/java/android.xml">
+        <exclude name="CallSuperLast"/>
+    </rule>
+    <rule ref="rulesets/java/basic.xml">
+        <exclude name="CollapsibleIfStatements"/>
+    </rule>
+    <rule ref="rulesets/java/clone.xml"/>
+    <rule ref="rulesets/java/finalizers.xml"/>
+    <rule ref="rulesets/java/imports.xml"/>
+    <rule ref="rulesets/java/javabeans.xml"/>
+
+    <rule ref="rulesets/java/optimizations.xml">
+        <exclude name="LocalVariableCouldBeFinal"/>
+        <exclude name="MethodArgumentCouldBeFinal"/>
+    </rule>
+    <rule ref="rulesets/java/sunsecure.xml"/>
+
+    <rule ref="rulesets/java/unnecessary.xml">
+        <exclude name="UselessParentheses"/>
+    </rule>
+
+    <!-- 引入阿里的Rule, 来源于 https://github.com/alibaba/p3c/tree/master/p3c-pmd/src/main/resources/rulesets/java -->
+    <rule ref="rulesets/java/ali-comment.xml">
+    </rule>
+
+    <rule ref="rulesets/java/ali-concurrent.xml">
+    </rule>
+
+    <rule ref="rulesets/java/ali-constant.xml">
+    </rule>
+
+    <rule ref="rulesets/java/ali-exception.xml">
+    </rule>
+
+    <rule ref="rulesets/java/ali-flowcontrol.xml">
+    </rule>
+
+    <rule ref="rulesets/java/ali-naming.xml">
+    </rule>
+
+    <rule ref="rulesets/java/ali-oop.xml">
+    </rule>
+
+    <rule ref="rulesets/java/ali-orm.xml">
+    </rule>
+
+    <rule ref="rulesets/java/ali-other.xml">
+    </rule>
+
+    <rule ref="rulesets/java/ali-set.xml">
+    </rule>
+
+</ruleset>
