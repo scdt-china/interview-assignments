@@ -1,0 +1,9 @@
+server:
+  port: 80
+short:
+  url:
+    service:
+      domain: 'http://a.cn/'
+    dao:
+      urlrelation:
+        size: 1000
