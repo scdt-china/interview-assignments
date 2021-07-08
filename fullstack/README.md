@@ -39,3 +39,47 @@
   - 流畅阅读英文技术文档
   - 对审美有一定追求
   - 能力突出者可适当放宽年限
+
+## 接口
+
+### 获取短路径
+
+POST URL/api/tiny_url
+
+Body:
+
+```json
+{
+    "url": String // URL = "www.baidu.com"
+}
+```
+
+Return:
+
+```json
+{
+  "STATUS": "SUCCESS",
+  "MESSAGE": "create tiny url successfull",
+  "DATA": "http://localhost:3000/api/tiny_url/RXVBCBMl"
+}
+```
+
+### 获取长路径
+
+GET URL/api/tiny_url/:tiny_url_code
+
+Path:
+
+```
+:tiny_url_code=短路径code // Require
+```
+
+Return:
+
+```json
+{
+  "STATUS": "SUCCESS",
+  "MESSAGE": "get original url successfull",
+  "DATA": "www.baidu.com"
+}
+```
