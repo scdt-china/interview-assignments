@@ -1,0 +1,16 @@
+server:
+  port: 19130
+
+# 默认的profile为dev，其他环境通过指定启动参数使用不同的profile，比如：
+#   测试环境：java -jar my-spring-boot.jar --spring.profiles.active=test
+#   生产环境：java -jar my-spring-boot.jar --spring.profiles.active=prod
+spring:
+  application:
+    name: shorturl
+  http:
+      multipart:
+        location: /home/hopson/apps/var/tmp
+
+# swagger 域名配置
+swaggerHost: localhost:19130
+swaggerShow: true
