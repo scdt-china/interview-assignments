@@ -1,0 +1,7 @@
+server:
+  port: 30001
+
+
+
+url: 
+  total: 10
