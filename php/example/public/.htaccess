@@ -1,0 +1,14 @@
+<IfModule mod_rewrite.c>
+Options +FollowSymlinks
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php [L,QSA,E=PATH_INFO:$1]
+RewriteCond %{SCRIPT_FILENAME} \.php [NC]
+SetEnvIf access_token .+ HTTP_AUTHORIZATION=$0
+
+RewriteCond % !^$
+RewriteRule ^/?app/.*\.php - [F]
+RewriteRule ^/?runtime/.*\.php - [F]
+RewriteRule ^/?vendor/.*\.php - [F]
+</IfModule>

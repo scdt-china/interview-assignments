@@ -1,0 +1,108 @@
+em {
+    font: bold 14px/23px tahoma, verdana;
+    color: #F60;
+    vertical-align: middle;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+
+.upload_audio {
+    padding-top: 5px;
+}
+
+.none {
+    display: none;
+}
+
+.layui-upload-img{width: 100px; height: 100px; margin: 0 10px 10px 0;}
+.fl {
+    float: left;
+}
+.mr5 {
+    margin-right: 5px !important;
+}
+@media screen and (min-width:768px){.edit-box-con2{width:90%;}
+    .images-upload{width:18%;}
+    .images-upload .upimg{height:140px;}
+    .images-upload .upimg img{height:auto;}
+    .web-system .upload-box .upload-right{width:310px;}
+}
+@media (min-width:768px) and (max-width:991px){.edit-box-con2{width:100%;}
+    .images-upload{width:30%;}
+    .images-upload .upimg{height:100px;}
+    .images-upload .upimg img{height:auto;}
+}
+@media (min-width:991px) and (max-width:1366px){.edit-box-con2{width:88%;}
+}
+.images-upload{position:relative;margin-right:1%;margin-top:15px;padding:5px;float:left;border:1px solid #ddd;overflow:hidden;display:block;border-radius:4px;}
+.edit-box-con2 .images-box{width:100%;height:1000px;}
+
+/*images-upload-多图上传图片模块*/
+.images-upload .upimg{position:relative;background:#fafafa;overflow:hidden;text-align:center;display:block;}
+.images-upload .upimg img{width:270px; height: 150px;}
+.images-upload .upimg .cover-bg{background:#000;opacity:0.5;width:100%;height:100%;position:absolute;z-index:2;}
+.images-upload .upimg .cover-bg2{background:#000;opacity:0.5;width:100%;height:20%;position:absolute;z-index:2;bottom:0;}
+.images-upload .upimg .icaction{position:absolute;top:50%;margin-top:-15px;text-align:center;width:100%;z-index:111;}
+.images-upload .upimg .del-bt{position:absolute;bottom:0;display:block;height:30px;line-height:30px;width:100%;text-align:center;z-index:111;}
+.images-upload .icaction span{height:28px;line-height:28px;padding:0 8px;background:#FF6666;color:#fff;display:inline-block;cursor:pointer;}
+.images-upload textarea{width:100%;padding:4px 6px;box-sizing:border-box;margin-top:5px;font-size:13px;height:50px;float:left;color:#999;border-color:#ddd;border-radius:3px;-webkit-appearance:none;box-shadow:0 1px 1px rgba(0,0,0,0.065) inset;transition:all 1s cubic-bezier(0.175,0.885,0.32,1) 0s;}
+.images-upload .operation a input{display:inline-block;margin-right:3px;vertical-align:middle;margin-top:-3px;}
+.images-upload .operation a{text-align:center;color:#666;outline:none;width:45%;float:left;font-size:14px;}
+.images-upload input,.images-upload select{border:1px solid #e6e6e6;}
+img.layer_tips_img{width:150px;max-height:250px;}
+
+.padding-h15 {
+    padding-top: 15px;
+}
+.d_video {
+    width: 60px;
+    display: block;
+    float: right;
+}
+#upload_file_wrap { padding-top: 15px; }
+.delfile { display: block;}
+
+.dubbing-content {
+    width: 100%;
+    margin-bottom: 5px;
+    display: block;
+}
+#upload_file_wrap_slices li, #upload_file_wrap li, #upload_file_wrap_silent li {
+    width: 320px;
+    padding-right: 10px;
+    margin-bottom: 10px;
+    float: left;
+}
+
+.videos-upload{position:relative;margin-right:1%;margin-top:15px;padding:5px;float:left;border:1px solid #ddd;overflow:hidden;display:block;border-radius:4px;}
+/*images-upload-多视频上传模块*/
+.videos-upload .upimg{position:relative;background:#fafafa;overflow:hidden;text-align:center;display:block;}
+.videos-upload .upimg img{width:100%;}
+.videos-upload .upimg .cover-bg{background:#000;opacity:0.5;width:100%;height:100%;position:absolute;z-index:2;}
+.videos-upload .upimg .cover-bg2{background:#000;opacity:0.5;width:100%;height:20%;position:absolute;z-index:2;bottom:0;}
+.videos-upload .upimg .icaction{position:absolute;top:50%;margin-top:-15px;text-align:center;width:100%;z-index:111;}
+.videos-upload .upimg .del-bt{position:absolute;bottom:0;display:block;height:30px;line-height:30px;width:100%;text-align:center;z-index:111;}
+.videos-upload .icaction span{height:28px;line-height:28px;padding:0 8px;background:#FF6666;color:#fff;display:inline-block;cursor:pointer;}
+.videos-upload textarea{width:100%;padding:4px 6px;box-sizing:border-box;margin-top:5px;font-size:13px;height:50px;float:left;color:#999;border-color:#ddd;border-radius:3px;-webkit-appearance:none;box-shadow:0 1px 1px rgba(0,0,0,0.065) inset;transition:all 1s cubic-bezier(0.175,0.885,0.32,1) 0s;}
+.videos-upload .operation a input{display:inline-block;margin-right:3px;vertical-align:middle;margin-top:-3px;}
+.videos-upload .operation a{text-align:center;color:#666;outline:none;width:45%;float:left;font-size:14px;}
+.videos-upload input,.videos-upload select{border:1px solid #e6e6e6;}
+
+#tiankong .text1 {
+    float: left;
+    width:50%;
+}
+
+#tiankong .text2 {
+    float: left;
+    width: 10%;
+}
+
+#tiankong .text3 {
+    float: left;
+    width: 15%;
+}
+.title-tips { color: red !important}
+.text_option { width:50%; display: inline-block }
+.is_correct { width:10%; display: inline-block }

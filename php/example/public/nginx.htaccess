@@ -1,0 +1,25 @@
+if ($request_uri ~* ^/?application/.*\.php) {
+    	return 403;
+    }
+    if ($request_uri ~* ^/?extend/.*\.php) {
+    	return 403;
+    }
+    
+    if ($request_uri ~* ^/?thinkphp/.*\.php) {
+    	return 403;
+    }
+    
+    if ($request_uri ~* ^/?runtime/.*\.php) {
+    	return 403;
+    }
+    
+    if ($request_uri ~* ^/?vendor/.*\.php) {
+    	return 403;
+    }
+	
+	location / { 
+    	  if (!-e $request_filename) {
+    		rewrite  ^(.*)$  /index.php?s=$1  last;
+    		break;
+    	 }
+    }

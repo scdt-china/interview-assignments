@@ -1,0 +1,83 @@
+<script type="text/html" template>
+  <link rel="stylesheet" href="{{ layui.setter.base }}style/login.css?v={{ layui.admin.v }}-1" media="all">
+</script>
+
+<div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
+  <div class="layadmin-user-login-main">
+    <div class="layadmin-user-login-box layadmin-user-login-header">
+      <h2>用户注册</h2>
+    </div>
+    <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+      <div class="layui-form-item">
+        <label class="layadmin-user-login-icon layui-icon layui-icon-username" for="LAY-user-login-username"></label>
+        <input type="text" name="username" id="LAY-user-login-username" lay-verify="required" placeholder="用户名" class="layui-input">
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-password"></label>
+        <input type="password" name="password" id="LAY-user-login-password" lay-verify="required" placeholder="密码" class="layui-input">
+      </div>
+      <div class="layui-form-item">
+        <label class="layadmin-user-login-icon layui-icon layui-icon-password" for="LAY-user-login-repeat_password"></label>
+        <input type="password" name="repeat_password" id="LAY-user-login-repeat_password" lay-verify="required" placeholder="确认密码" class="layui-input">
+      </div>
+
+      <div class="layui-form-item">
+        <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="LAY-user-reg-submit">注 册</button>
+      </div>
+
+    </div>
+  </div>
+
+
+</div>
+
+<script>
+layui.use(['admin', 'form', 'user'], function(){
+  var $ = layui.$
+  ,setter = layui.setter
+  ,admin = layui.admin
+  ,form = layui.form
+  ,router = layui.router();
+  form.render();
+
+
+  //提交
+  form.on('submit(LAY-user-reg-submit)', function(obj){
+    var field = obj.field;
+
+    //确认密码
+    if(field.password !== field.repeat_password){
+      return layer.msg('两次密码输入不一致');
+    }
+
+    //请求接口
+    $.ajax({
+      url: setter.apiUrl+'/api/User/register',
+      type: 'post',
+      data: field,
+      async: false,
+      dataType: "json",
+      success:function (res) {
+          if(res.status === 0){
+              layer.msg(res.msg, {
+                  offset: '15px',
+                  icon: 1,
+                  time: 1000
+              }, function () {
+                  location.hash = '/user/login';
+              })
+          }else{
+              layer.msg(res.msg, {icon: 2,time: 1000});
+          }
+      },
+      error: function (res) {
+          layer.msg(res.responseJSON.msg, {icon: 2,time: 1000});
+      }
+
+    });
+
+    return false;
+  });
+});
+</script>

@@ -1,0 +1,28 @@
+.is-center {
+    text-align: center;
+}
+.el-divider {
+    background-color: #dcdfe6;
+    position: relative;
+}
+.el-divider__text.is-center {
+    left: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
+.el-divider--horizontal {
+    display: block;
+    height: 1px;
+    width: 100%;
+    margin: 24px 0;
+}
+.el-divider__text {
+    position: absolute;
+    background-color: #fff;
+    padding: 0 20px;
+    color: #303133;
+}
+.el-divider__text, .el-link {
+    font-weight: 500;
+    font-size: 14px;
+}
