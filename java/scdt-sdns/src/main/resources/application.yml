@@ -1,0 +1,8 @@
+server:
+  port: 8118
+  servlet:
+    context-path: /sdns
+
+sdns:
+  urlPool:
+    capacity: 1000000
