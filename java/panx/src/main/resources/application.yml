@@ -1,0 +1,8 @@
+server:
+  port: 8088
+  servlet:
+    context-path: /panx
+
+spring:
+  application:
+    name: panx
