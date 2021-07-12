@@ -1,0 +1,20 @@
+logging:
+  config: classpath:config/log4j2-spring.xml
+server:
+  port: 6060
+  servlet:
+    context-path: /assignment
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+system:
+  drg:
+    drg-version: 1.0
+    medicare-base-version: 1.0
+  config:
+    cors:
+      origin: '*'
+  security:
+    ignore:
+      resources: "/400,/404"

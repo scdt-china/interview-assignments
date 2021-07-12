@@ -1,0 +1,13 @@
+
+# About IntelliJ
+*.iml
+/.idea/
+/out/
+target/
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+.idea
+out
+gen
