@@ -1,0 +1,12 @@
+# 开发环境配置
+server:
+  # 服务器的HTTP端口，默认为80
+  port: 56789
+  #session 关闭
+  session:
+    store-type: none
+# 日志配置
+logging:
+  level:
+    com.ruoyi: debug
+    org.springframework: warn
