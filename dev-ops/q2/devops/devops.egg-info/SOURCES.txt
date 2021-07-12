@@ -1,0 +1,7 @@
+README.md
+setup.py
+devops/devops.egg-info/PKG-INFO
+devops/devops.egg-info/SOURCES.txt
+devops/devops.egg-info/dependency_links.txt
+devops/devops.egg-info/requires.txt
+devops/devops.egg-info/top_level.txt
