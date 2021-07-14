@@ -1,0 +1,70 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: shorturl
+  datasource:
+    #创建表的MySql语句位置
+    schema: classpath:schema.sql
+    #插入数据的MySql语句的位置
+    data: classpath:data.sql
+    driver-class-name: org.h2.Driver
+    #指定数据库的种类，这里 file意思是文件型数据库
+    url: jdbc:h2:file:~/test
+    username: san
+    password: ''
+  h2:
+    console:
+      enabled: true
+      #console url。Spring启动后，可以访问 http://127.0.0.1:8080/h2-console 查看数据库
+      path: /h2-console
+      settings:
+        trace: true
+        #remote visit
+        web-allow-others: true
+  cache:
+    ehcache:
+      config: classpath:ehcache.xml
+    type: simple
+
+mybatis:
+  mapper-locations: classpath*:/com/fh/shorturl/mybatis/mapper/*.xml
+  type-aliases-package: com.fh.shorturl.mybatis.entity
+knife4j:
+  basic:
+    enable: false
+    password: 12313
+    username: test
+  cors: false
+  documents:
+  - group: 2.X版本
+    locations: classpath:markdown/*
+    name: 另外文档分组请看这里
+  - group: 3.默认接口
+    locations: classpath:markdown/*
+    name: 我是另外一个分组的文档
+  enable: true
+  production: false
+  setting:
+    enableAfterScript: true
+    enableDebug: true
+    enableDocumentManage: true
+    enableDynamicParameter: false
+    enableFilterMultipartApiMethodType: POST
+    enableFilterMultipartApis: true
+    enableFooter: true
+    enableFooterCustom: true
+    enableGroup: true
+    enableHomeCustom: true
+    enableHost: false
+    enableHostText: 192.168.0.193:8000
+    enableOpenApi: false
+    enableReloadCacheParameter: false
+    enableRequestCache: true
+    enableSearch: false
+    enableSwaggerModels: true
+    enableVersion: false
+    footerCustomContent: Apache License 2.0 | Copyright  2019-[浙江八一菜刀股份有限公司](https://gitee.com/xiaoym/knife4j)
+    homeCustomLocation: classpath:markdown/home.md
+    language: zh-CN
+    swaggerModelName: 实体类列表

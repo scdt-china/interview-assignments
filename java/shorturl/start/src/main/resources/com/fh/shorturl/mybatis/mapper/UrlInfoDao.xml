@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fh.shorturl.mybatis.mapper.UrlInfoDao">
+
+    <resultMap type="com.fh.shorturl.model.UrlInfo" id="UrlInfoMap">
+        <result property="id" column="ID" jdbcType="INTEGER"/>
+        <result property="longUrl" column="LONG_URL" jdbcType="VARCHAR"/>
+        <result property="shortUrl" column="SHORT_URL" jdbcType="VARCHAR"/>
+        <result property="sign" column="SIGN" jdbcType="VARCHAR"/>
+        <result property="expireTime" column="EXPIRE_TIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <select id="getNextSeq" resultType="Integer">
+    SELECT CURRENT_VALUE+1 FROM INFORMATION_SCHEMA.Sequences
+    </select>
+    <!--查询单个-->
+    <select id="queryById" resultMap="UrlInfoMap">
+        select
+          ID, LONG_URL, SHORT_URL, SIGN, EXPIRE_TIME
+        from PUBLIC.URL_INFO
+        where ID = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UrlInfoMap">
+        select
+          ID, LONG_URL, SHORT_URL, SIGN, EXPIRE_TIME
+        from PUBLIC.URL_INFO
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="UrlInfoMap">
+        select
+        ID, LONG_URL, SHORT_URL, SIGN, EXPIRE_TIME
+        from PUBLIC.URL_INFO
+        <where>
+            <if test="id != null">
+                and ID = #{id}
+            </if>
+            <if test="longUrl != null">
+                and LONG_URL = #{longUrl}
+            </if>
+            <if test="shortUrl != null">
+                and SHORT_URL = #{shortUrl}
+            </if>
+            <if test="sign != null">
+                and SIGN = #{sign}
+            </if>
+            <if test="expireTime != null">
+                and EXPIRE_TIME = #{expireTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into PUBLIC.URL_INFO(LONG_URL, SHORT_URL, SIGN, EXPIRE_TIME)
+        values (#{longUrl}, #{shortUrl}, #{sign}, #{expireTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update PUBLIC.URL_INFO
+        <set>
+            <if test="longUrl != null">
+                LONG_URL = #{longUrl},
+            </if>
+            <if test="shortUrl != null">
+                SHORT_URL = #{shortUrl},
+            </if>
+            <if test="sign != null">
+                SIGN = #{sign},
+            </if>
+            <if test="expireTime != null">
+                EXPIRE_TIME = #{expireTime},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from PUBLIC.URL_INFO where ID = #{id}
+    </delete>
+
+</mapper>
