@@ -1,0 +1,30 @@
+Url Shortener Design Approach
+
+The assignment is essentially mapping of longUrl to shortUrl. At first I thought of using a base62 counter as shortUrl and keep increasing it. But this will let people find out how many URLs have been encoded, and they can guess the shortUrl count and keep encoding to get the shortUrl number they like. So I decided to do it with fixed 8 character of random digits and letters as shortUrl.
+
+the short Url charset is 10 digits with 26 letters and 26 capitalized letters. This means we can have 62^8 = 218,340,105,584,896 shortUrls. 
+
+The long and short Url will be stored in two maps: longToShort and shortToLong. It is possible for the randomly generated code to repeat, if this happens, it will try to generate a new shortUrl until it finds a unused one. With 62^8 potential shortUrls, this should not be a problem. 
+
+Since we have to store mapping data in JVM instead using a database; to avoid out of memory error, I decided to use LinkedHashMap in AccessOrder and override the removeEldestEntry method to remove the oldest entry if we reach max number of entries. This is essentially creating a Least Recently Used (LRU) cache. I set the maxSize to be 1000000.
+
+to shorten Url: /api/encode
+to decode shortUrl: /api/{shortUrl}
+Jacoco report screenshot: jacoco_coverage
+SwaggerUI: http://localhost:8080/swagger-ui.html#/urlshortener-controller
+
+
+撰写两个 API 接口:
+短域名存储接口：接受长域名信息，返回短域名信息
+短域名读取接口：接受短域名信息，返回长域名信息。
+
+限制：
+短域名长度最大为 8 个字符
+采用SpringBoot，集成Swagger API文档；
+JUnit编写单元测试, 使用Jacoco生成测试报告(测试报告提交截图即刻)；
+映射数据存储在JVM内存即可，防止内存溢出；
+
+递交作业内容
+源代码(使用gitignore过滤掉非必要的提交文件，如class文件)
+Jacoco单元测试覆盖率截图
+设计思路以及所有做的假设(TXT即可)
