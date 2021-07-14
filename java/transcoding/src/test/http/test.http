@@ -1,0 +1,5 @@
+POST http://localhost:8080/longToShort?longUrl=http://www.baidu.com/aaa?vvv=ccc
+#########
+
+GET http://localhost:8080/shortToLong/ry2Mbm
+#########
