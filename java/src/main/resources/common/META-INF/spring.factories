@@ -1,0 +1,3 @@
+# Environment Post Processor
+org.springframework.boot.env.EnvironmentPostProcessor=\
+com.creolophus.liuyi.common.logger.MyIPEnvironmentPostProcessor

@@ -1,0 +1,11 @@
+
+██╗     ██╗██╗   ██╗██╗   ██╗██╗
+██║     ██║██║   ██║╚██╗ ██╔╝██║
+██║     ██║██║   ██║ ╚████╔╝ ██║
+██║     ██║██║   ██║  ╚██╔╝  ██║
+███████╗██║╚██████╔╝   ██║   ██║
+╚══════╝╚═╝ ╚═════╝    ╚═╝   ╚═╝
+Github               git@github.com:magicnana999/liuyi-ms.git
+Author               magicnana999@gmail.com
+Spring-Boot          2.3.3.RELEASE
+Spring-Cloud         Hoxton.SR10

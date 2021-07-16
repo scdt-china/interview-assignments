@@ -1,0 +1,41 @@
+package ${package};
+${imports}
+${implSerializable?"import java.io.Serializable;"}
+import io.swagger.annotations.ApiModelProperty;
+import org.beetl.sql.core.annotatoin.AutoID;
+import org.beetl.sql.core.annotatoin.AssignID;
+import com.creolophus.liuyi.common.base.AbstractEntity;
+
+
+/**
+* @author magicnana
+* @date ${date(),"yyyy-MM-dd"}
+*/
+
+public class ${className} ${!isEmpty(ext)?"extends "+ext} ${implSerializable?"implements Serializable"} {
+
+	<%for(attr in attrs){
+			if(!isEmpty(attr.comment)){%>
+	@ApiModelProperty(notes = "${attr.comment}")
+	<%		}%>
+	<%if(attr.isKey){
+	    if(attr.isAuto){
+	%>
+	@AutoID
+	<%}else{%>
+	@AssignID
+	<%}%>
+	<%}%>
+	private ${attr.type} ${attr.name} ;
+	<%}%>
+
+	<%for(attr in attrs){%>
+	public ${attr.type} get${attr.methodName}(){
+	    return  ${attr.name};
+	}
+	public void set${attr.methodName}(${attr.type} ${attr.name} ){
+	    this.${attr.name} = ${attr.name};
+	}
+
+	<%}%>
+}

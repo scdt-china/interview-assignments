@@ -1,3 +1,7 @@
 .DS_Store
+.idea
+java/logs
+java/*.iml
+java/target
 node_modules/
 

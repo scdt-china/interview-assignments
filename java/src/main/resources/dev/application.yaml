@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: short-url
+
+  profiles:
+    active: dev
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: false
+
+logging:
+  pattern:
+    file: "%d{${LOG_DATEFORMAT_PATTERN:yyyy-MM-dd HH:mm:ss.SSS}} %p ${spring.application.name} ${X-LiuYi-IP:-} ${server.port} %X{X-B3-TraceId:-} %X{X-B3-SpanId:-} %X{X-LiuYi-EXT:-} %X{X-LiuYi-URI:-} %logger{39}.%X{X-LiuYi-Method:-} %m%n"
+    console: "%d{${LOG_DATEFORMAT_PATTERN:yyyy-MM-dd HH:mm:ss.SSS}} %p ${spring.application.name} ${X-LiuYi-IP:-} ${server.port} %X{X-B3-TraceId:-} %X{X-B3-SpanId:-} %X{X-LiuYi-EXT:-} %X{X-LiuYi-URI:-} %logger{39}.%X{X-LiuYi-Method:-} %m%n"
+  file:
+    name: "logs/${spring.application.name}.log"
+  level:
+    root: info
+    com:
+      creolophus: debug
+
+server:
+  port: 8080
+  undertow:
+    accesslog:
+      enabled: true
+      pattern: "%h %l %u %t %r %s %b %D"
+
+
