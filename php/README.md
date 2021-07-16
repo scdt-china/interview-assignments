@@ -1,28 +1,38 @@
-# PHP Engineer Assignment
+## 
+### 一、版本控制
+- 框架： phalcon 4.0
+- php： 7.3
+- mysql： 5.7
+- 编辑器： phpStorm
 
-## 用户注册 Demo
+### 二、文件夹说明
+- user.sql是数据库文件
+- public是入口文件
+- app文件夹是应用代码
 
-### 需求
+| 文件夹     | 说明           | 
+| :--------: |   :--------:   |
+|  config | 配置和初始化服务    |
+|  controllers  | 控制器  |
+|  library | 服务代码 |
+|  models | 数据库模型 |
+|  views | 视图 |
 
-- 浏览器通过 `localhost:3000` 可以访问到一个用户注册页
-- 该页是一个表单，有三个字段：
-  - Username
-  - Password
-  - Repeat Password
-- 还有一个 Submit 按钮
-  - 点击后，发送请求 `POST localhost:3000/api/register`
-  - 该 API 会验证如下条件：
-    - Username 是否符合要求：
-      - 只能以英文字母或下划线开头
-      - 只能包含英文字母，下划线或数字
-    - Password 是否符合要求：
-      - 长度在 6 位以上
-      - 不能含有 3 位以上的连续数字
-      - 必须有大写字母，小写字母或数字中的两项
-  - 根据 API 结果在注册页展示相关信息
-  
-### 备注
-  
-- 网页不需要美观，只需满足需求即可
-- 需要设置用户数据库/提供数据库相关信息
-- 可以使用任意 php 框架，但不要提交框架本身
+### 三、 作业要求
+- 作业要求的相关php代码都在app目录下
+
+| 要求     |     说明           | 
+| :--------: |    :--------:   |
+|  网页入口  | reg/index  |   
+|  api/register  | 对应路由在config\service.php中37行 |
+
+
+### 四 接口返回数据说明
+> 接口统一返货JSON格式的数组，具体如下表格,参考地址app\library\ErrorMessage.class.php：
+
+| 字段     | 格式           | 说明              |  可以为空  |
+| :--------: |   :--------:   | ----------------  | :----:         |
+|  code | int  |错误码，为200代表成功，其他代表失败          |  否     |
+|  msg  | string  | code对应的信息          |  否     |
+|  data | array  | 返回的数据          |  是     |
+

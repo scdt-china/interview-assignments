@@ -1,0 +1,42 @@
+<body>
+<div style="text-align: center;margin-top: 10%;overflow:auto;">
+    <form style="width: 200px;margin: auto;">
+        <input size="30" type="text" placeholder="用户名" id="r_username"/>
+        <input size="30" type="password" placeholder="密码" id="r_password"/>
+        <input size="30" type="password" placeholder="确认密码" id="r_repeat_password"/>
+
+        <button id="create">注册账户</button>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("#create").click(function () {
+            register();
+            return false;
+        })
+    })
+
+    function register() {
+        var username = $("#r_username").val();
+        var password = $("#r_password").val();
+        var repeat_password = $("#r_repeat_password").val();
+        if (username != "" && password != "" && repeat_password != "") {
+            $.ajax(
+                {
+                    url: "/api.php/register",
+                    type: "POST",
+                    dataType: "json",
+                    data: {username: username, password: password, repeat_password: repeat_password},
+                    success: function (result) {
+                        if (result.code == 200) {
+                            alert(result.message);
+                        } else {
+                            alert(result.message);
+                        }
+                    }
+                });
+        } else {
+            alert('注册数据不能为空');
+        }
+    }
+</script>

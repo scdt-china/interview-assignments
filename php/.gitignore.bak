@@ -1,0 +1,7 @@
+.project
+.classpath
+.settings
+.gitignore
+.buildpath
+.idea
+public/index.php
