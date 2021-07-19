@@ -1,0 +1,14 @@
+server:
+  port: 9000
+  servlet:
+    context-path: /short_name
+
+spring:
+  application:
+    name: short-name
+  cache:
+    type: simple
+    ehcache:
+      config: classpath:ehcache.xml
+logging:
+  file: shortName.log
