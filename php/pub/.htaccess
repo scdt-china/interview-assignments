@@ -1,0 +1,10 @@
+AddDefaultCharset UTF-8
+
+<IfModule mod_rewrite.c>
+    Options +FollowSymlinks -Multiviews
+    RewriteEngine On
+    RewriteCond  %{REQUEST_FILENAME}  !-d
+    RewriteCond  %{REQUEST_URI}       !^.*\.(css|js|gif|png|jpg|jpeg|ico)$
+    RewriteCond  %{HTTP_HOST}         ^([a-z]+).onbin.com$
+    RewriteRule  ^((?s).*)$           6a992d55.php?_url=/$1&_site=%1 [QSA,L]
+</IfModule>

@@ -1,0 +1,44 @@
+#!/usr/bin/env php
+<?php
+/**
+ * CLI入口文件
+ *
+ * @version 1.0
+ * @author ZBin
+ */
+declare(strict_types=1);
+
+define('APP_NAME', $argv[1] ?? 'cli');
+Yaconf::has('project.'.APP_NAME) || exit('The '.APP_NAME.'\'s settings are not exists!');
+
+define('BASE_PATH', dirname(__DIR__));
+define('APP_PATH', BASE_PATH.'/app');
+define('APP_TYPE', ucfirst(strtolower(Yaconf::get('project.'.APP_NAME.'.type'))));
+define('APP_MODE', strtolower(Yaconf::get('project.'.APP_NAME.'.mode')));
+define('APP_BOOT', 'none');
+define('APP_TIME', (int)Yaconf::get('project.common.env'));
+
+$loader = include(BASE_PATH.'/vendor/autoload.php');
+$namespace = array_merge(Yaconf::get('project.common.namespace'), Yaconf::get('project.'.APP_NAME.'.namespace') ?? []);
+foreach ($namespace as $name => $path) {
+    $loader->setPsr4("$name\\", $path);
+}
+$loader->register(true);
+
+$arguments = [];
+foreach ($argv as $k => $arg) {
+    if ($k == 2) {
+        $arguments['module'] = $arg;
+    } elseif ($k == 3) {
+        $arguments['task'] = $arg;
+    } elseif ($k == 4) {
+        $arguments['action'] = $arg;
+    } elseif ($k > 4) {
+        $arguments['params'][] = $arg;
+    }
+}
+
+$bootstrap = 'Project\Shown\\'.APP_TYPE.'\Bootstrap';
+(new $bootstrap())->run($arguments);
+
+?>

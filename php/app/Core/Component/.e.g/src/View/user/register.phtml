@@ -1,0 +1,69 @@
+<div class="login layui-anim layui-anim-up">
+    <div class="message">用户注册</div>
+    <div id="darkbannerwrap"></div>
+        
+    <form method="post" class="layui-form" >
+        <input name="username" placeholder="用户名"  type="text" lay-verify="required|vUsername" class="layui-input" >
+        <hr class="hr15">
+        <input id="password" name="password" placeholder="密码"  type="password" lay-verify="required|vPassword" class="layui-input">
+        <hr class="hr15">
+        <input id="surePassword" name="surePassword" placeholder="确认密码" type="password" lay-verify="required|vsPassword" class="layui-input">
+        <hr class="hr15">
+        <input type="hidden" name="<?php echo $this->security->getTokenKey(); ?>" value="<?php echo $this->security->getToken(); ?>" class="layui-input"/>
+        <input value="提交" lay-submit lay-filter="register" style="width:100%;" type="submit">
+        <hr class="hr20" >
+    </form>
+</div>
+
+<script>
+    layui.use(['form', 'layer','jquery'], function(){
+        var form = layui.form;
+        var layer = layui.layer;
+        var $ = layui.jquery;
+        
+        form.verify({
+            vUsername : function(value) { 
+                var regex = /^[a-zA-Z_]+[a-zA-Z0-9_]{1,}$/;
+                if (!regex.test(value)) return '用户名只能由字母、数字或下划线组成，且不能以数字开头';
+            },
+            vPassword : function(value) {
+                if (value.length < 6)  return '密码最少 6 位';
+
+                var regex = /(?!([0-9_\W]+|[a-z_\W]+|[A-Z_\W]+)$)^[\w\W]{6,}$/;
+                if (!regex.test(value)) return '密码必须包含大写字母、小写字母或数字中的两项';
+                
+                var regex = /(012|123|234|345|456|567|678|789)/;
+                if (regex.test(value)) return '密码不能含有 3 位以上的连续数字或字符';
+            }, 
+            vsPassword : function(value) {
+                if ($('#password').val() != $('#surePassword').val()) return '两次密码不一致';
+            } 
+        });
+
+        form.on('submit(register)', function(data) {
+            $.ajax({  
+                type : 'POST',
+                url  : '/user/register',
+                data : data.field,
+                dataType : 'json',
+                async : true,
+                cache : false,
+                success : function(data) {
+                    if (data.status) {
+                        layer.msg(data.msg, function() {
+                            location.reload(true);
+                        });
+                    } else {
+                        console.log(data);
+                    }
+                },  
+                error: function(json) {
+                    layer.msg('请求异常，请稍后重试...', function() {
+                        location.reload(true);
+                    });
+                }
+            });
+            return false;
+        });
+    });
+</script>
