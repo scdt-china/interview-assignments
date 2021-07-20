@@ -1,0 +1,474 @@
+路由：
+<?php
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| is assigned the "api" middleware group. Enjoy building your API!
+|
+*/
+
+
+//用户添加, 'middleware' => ['auth:permission']
+Route::group(['prefix' => 'user'], function () {
+    Route::post('/register', "UserController@create"); //用户创建
+});
+
+
+注册接口api：
+
+<?php
+
+namespace App\Modules\User\Http\Controllers;
+
+use App\Exceptions\CodeException;
+use App\Modules\User\Services\UsersInfoService;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Controller;
+use App\Modules\User\Http\Requests\User\UserCreateRequest;
+
+
+class UserController extends Controller
+{
+    /**
+     * 用户信息服务
+     *
+     * @var UsersInfoService
+     */
+    protected $userInfoService;
+
+    /**
+     * UserController constructor.
+     *
+     * @param UsersInfoService $usersInfoService
+     */
+    public function __construct(UsersInfoService $usersInfoService)
+    {
+        $this->userInfoService = $usersInfoService;
+    }
+
+
+    /**
+     * 创建用户
+     *
+     * @return json
+     */
+    public function create(UserCreateRequest $request)
+    {
+        $data = $request->validated();
+
+        $ret = $this->userInfoService->createUser($data);
+
+        if ($ret == false) {
+            return response()->error("user.failure");
+        }
+
+        return response()->success([
+            'ret' => $ret,
+        ]);
+    }
+
+}
+
+提交用户信息验证：
+
+<?php
+
+namespace App\Modules\User\Http\Requests\User;
+
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
+class UserCreateRequest extends FormRequest
+{
+
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+
+            "user_name" => "required|string|min:2|max:20|regex:/^[a-zA-Z_][a-zA-Z0-9_]*$/",
+            "password" => "required|string|min:6|max:20|regex:/(?!^[a-zA-Z]+$)(?!^[\d]+$)/",
+
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'Username' => '用户名',
+            "Password" => "密码",
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'required' => ':attribute不能为空',
+            'min' => ':attribute最少:min字符',
+            'max' => ':attribute最长:max字符',
+            'Username' => ':attribute只能以英文字母或下划线开头,只能包含英文字母，下划线或数字',
+            'Password' => ':attribute长度在 6 位以上,不能含有 3 位以上的连续数字,
+必须有大写字母，小写字母或数字中的两项',
+        ];
+    }
+}
+
+
+service层：
+
+<?php
+
+namespace App\Modules\User\Services;
+
+use App\Exceptions\CodeException;
+use App\Modules\User\Entities\UsersInfo;
+use App\Modules\User\Repositories\RedisRepository;
+use App\Modules\User\Repositories\UsersInfoRepository;
+use App\Modules\User\Repositories\UsersRoleRepository;
+use App\Modules\User\Services\DepartmentService;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Cache;
+use Log;
+use DB;
+
+class UsersInfoService
+{
+
+
+    /**
+     * 用户仓储
+     *
+     * @var UsersInfoRepository
+     */
+    protected $userRep;
+
+
+
+    /**
+     * @var RedisRepository
+     */
+    protected $redisRep;
+
+
+    /**
+     * UsersInfoService constructor.
+     *
+     * @param UsersInfoRepository $userRep
+     */
+    public function __construct(
+        UsersInfoRepository $userRep,
+        UsersRoleRepository $userRolesRep,
+        RedisRepository $redisRepository
+    )
+    {
+        $this->userRep     = $userRep;
+        $this->userRoleRep = $userRolesRep;
+        $this->redisRep    = $redisRepository;
+
+    }
+
+
+    /**
+     * 测试账号
+     *
+     * @return boolean
+     */
+    public function checkUserUnique($userName = '')
+    {
+        return $this->userRep->userUniqueQuery($userName)->count();
+    }
+
+
+    /**
+     * 创建用户
+     *
+     * @param array $data
+     * @return UsersInfo
+     */
+    public function createUser(array $data)
+    {
+
+        if (! isset($data['password'])) {
+            $data['password'] = config('auth.passwords.default');
+        }
+
+        $data['password'] = $this->getHashPwd($data['password']);
+
+
+        $user = null;
+        try {
+            DB::transaction(function () use ($data, &$user) {
+                $user   = $this->userRep->create($data);
+            });
+        } catch (\Exception $e) {
+            Log::error('create_user_error', [
+                'errmsg' => $e->getMessage(),
+                'efile'  => $e->getFile(),
+                'eline'  => $e->getLine(),
+                'data'   => $data,
+            ]);
+        }
+
+        return $user;
+    }
+
+
+
+
+    /**
+     * 获取hash后的密码串
+     *
+     * @param  string $pwd 明文密码
+     * @return string
+     */
+    public function getHashPwd($pwd)
+    {
+        return Hash::make($pwd);
+    }
+
+}
+
+
+moddel中间层：
+<?php
+
+namespace App\Modules\User\Services;
+
+use App\Exceptions\CodeException;
+use App\Modules\User\Entities\UsersInfo;
+use App\Modules\User\Repositories\RedisRepository;
+use App\Modules\User\Repositories\UsersInfoRepository;
+use App\Modules\User\Repositories\UsersRoleRepository;
+use App\Modules\User\Services\DepartmentService;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Cache;
+use Log;
+use DB;
+
+class UsersInfoService
+{
+
+
+    /**
+     * 用户仓储
+     *
+     * @var UsersInfoRepository
+     */
+    protected $userRep;
+
+
+
+    /**
+     * @var RedisRepository
+     */
+    protected $redisRep;
+
+
+    /**
+     * UsersInfoService constructor.
+     *
+     * @param UsersInfoRepository $userRep
+     */
+    public function __construct(
+        UsersInfoRepository $userRep,
+        UsersRoleRepository $userRolesRep,
+        RedisRepository $redisRepository
+    )
+    {
+        $this->userRep     = $userRep;
+        $this->userRoleRep = $userRolesRep;
+        $this->redisRep    = $redisRepository;
+
+    }
+
+
+    /**
+     * 测试账号
+     *
+     * @return boolean
+     */
+    public function checkUserUnique($userName = '')
+    {
+        return $this->userRep->userUniqueQuery($userName)->count();
+    }
+
+
+    /**
+     * 创建用户
+     *
+     * @param array $data
+     * @return UsersInfo
+     */
+    public function createUser(array $data)
+    {
+
+        if (! isset($data['password'])) {
+            $data['password'] = config('auth.passwords.default');
+        }
+
+        $data['password'] = $this->getHashPwd($data['password']);
+
+
+        $user = null;
+        try {
+            DB::transaction(function () use ($data, &$user) {
+                $user   = $this->userRep->create($data);
+            });
+        } catch (\Exception $e) {
+            Log::error('create_user_error', [
+                'errmsg' => $e->getMessage(),
+                'efile'  => $e->getFile(),
+                'eline'  => $e->getLine(),
+                'data'   => $data,
+            ]);
+        }
+
+        return $user;
+    }
+
+
+
+
+    /**
+     * 获取hash后的密码串
+     *
+     * @param  string $pwd 明文密码
+     * @return string
+     */
+    public function getHashPwd($pwd)
+    {
+        return Hash::make($pwd);
+    }
+
+}
+
+model层：
+
+<?php
+
+namespace App\Modules\User\Entities;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User;
+
+class UsersInfo extends User
+{
+    use SoftDeletes;
+
+    protected $connection = 'mysql';
+    /*
+     * table name
+     *
+     * @var string
+     */
+    protected $table = "users";
+
+    /**
+     * primary key
+     *
+     * @var string
+     */
+    protected $primaryKey = "user_id";
+
+
+    /**
+     * 可写字段
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'user_name',
+        'password',
+
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password',
+    ];
+
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
+     * @var string
+     */
+    //protected $dateFormat = 'U';
+
+    /**
+     * @var boolean
+     */
+  //  protected $isLoadAttrs;
+
+    //const ENABLE = 1; // 禁用
+
+   // const DISABLE = 0; //不禁用
+
+
+
+}
+
+
+数据表：
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `user_id` char(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`user_id`) USING BTREE,
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+
+文件夹需要放到lavarel的modules目录下面 等于是分多个数据库和多个mvc 可以通过service进行相互访问
+
+由于电脑 重装了系统 没安装vue  程序写的是api接口形式 
+
+前端也需要做给出的验证 以及2次密码一致的验证  
