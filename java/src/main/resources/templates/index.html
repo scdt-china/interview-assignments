@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="shortcut icon" href="../static/favicon.ico" th:href="@{/static/favicon.ico}"/>
+
+    <title>短地址转换</title>
+    <style>
+        body {
+            margin: 10px;
+        }
+
+        .mid {
+            text-align: center;
+            padding: 10px;
+        }
+
+        input {
+            font-size: 20px;
+        }
+
+        button {
+            font-size: 20px;
+        }
+
+
+    </style>
+</head>
+<body>
+<h1 class="mid">短地址转换</h1>
+<!--<div id="preurl" style="display: none" th:text="${domain}"></div>-->
+<div class="mid">
+    <div><input id='url'/>
+        <button onclick='convert()'>转换为短地址</button>
+    </div>
+    <div id='convertRepoDiv' style="display: none;"><a id="convertRepo" target="_blank"></a></div>
+
+    <div><input id="shortUrl"/>
+        <button id=“revert” onclick='revert()'>还原网址</button>
+    </div>
+    <div id='revertRepoDiv' style="display: none;"><a id="revertRepo" target="_blank"></a></div>
+</div>
+
+</body>
+<script>
+    function convert() {
+        var xhr = new XMLHttpRequest();
+        var url = document.getElementById("url").value;
+        xhr.onreadystatechange = function () {
+        }
+        xhr.open('post', '/convert', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            if (this.status === 200) {
+                var res = JSON.parse(this.response);
+                console.log(res.data);
+                if (res.code !== 200) {
+                    alert(res.message);
+                    return false;
+                }
+                document.getElementById("convertRepoDiv").style.display = "block";
+                var convertRepo = document.getElementById("convertRepo");
+                // var url = document.getElementById("preurl").innerText + "/" + res.data;
+                var url = res.data;
+                convertRepo.setAttribute("href", url);
+                convertRepo.innerText = convertRepo.getAttribute("href");
+            }
+        };
+        xhr.send('url=' + url);
+    }
+
+    function revert() {
+        var xhr = new XMLHttpRequest();
+        var shortUrl = document.getElementById("shortUrl").value;
+        xhr.onreadystatechange = function () {
+        }
+        xhr.open('post', '/revert', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            if (this.status === 200) {
+                var res = JSON.parse(this.response);
+                console.log(res.data);
+                if (res.code !== 200) {
+                    alert(res.message);
+                    return false;
+                }
+                document.getElementById("revertRepoDiv").style.display = "block";
+
+                var convertRepo = document.getElementById("revertRepo");
+                convertRepo.setAttribute("href", res.data);
+                convertRepo.innerText = convertRepo.getAttribute("href");
+
+            }
+        };
+        xhr.send('shortUrl=' + shortUrl);
+    }
+
+</script>
+</html>
